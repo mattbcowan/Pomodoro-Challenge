@@ -24,12 +24,16 @@ const StyledButton = styled.button`
     border: 2px solid #c0392b;
     color: #c0392b;
   `}
+
+  ${props => props.fullwidth && css`
+    width: 100%;
+  `}
 `
 
 
-const Button = ({ primary, inverted, children, onClick}) => {
+const Button = ({ primary, inverted, fullwidth, children, onClick}) => {
   return (
-    <StyledButton onClick={onClick} primary={primary} inverted={inverted}>{children}</StyledButton>
+    <StyledButton onClick={onClick} primary={primary} inverted={inverted} fullwidth={fullwidth}>{children}</StyledButton>
   );
 };
 
