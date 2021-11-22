@@ -1,6 +1,8 @@
 import "./App.css";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 import { Navbar, Timer } from "./components/organisms";
+import Login from "./pages/Login";
 
 const AppContainer = styled.div`
   height: 100vh;
@@ -18,14 +20,11 @@ const Container = styled.div`
 
 const App = () => {
   return (
-    <AppContainer>
-      <header className="App-header">
-        <Navbar />
-      </header>
-      <Container>
-        <Timer />
-      </Container>
-    </AppContainer>
+    <Router>
+      <Routes>
+        <Route exact path="/" component={Login} />
+      </Routes>
+    </Router>
   );
 };
 
