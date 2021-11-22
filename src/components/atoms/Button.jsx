@@ -18,12 +18,18 @@ const StyledButton = styled.button`
     border: 2px solid #fff;
     color: #c0392b;
   `}
+
+  ${props => props.inverted && css`
+    background: transparent;
+    border: 2px solid #c0392b;
+    color: #c0392b;
+  `}
 `
 
 
-const Button = ({ primary, children, onClick}) => {
+const Button = ({ primary, inverted, children, onClick}) => {
   return (
-    <StyledButton onClick={onClick} primary={primary}>{children}</StyledButton>
+    <StyledButton onClick={onClick} primary={primary} inverted={inverted}>{children}</StyledButton>
   );
 };
 

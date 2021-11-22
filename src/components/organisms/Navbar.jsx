@@ -1,17 +1,19 @@
 import React from 'react'
 import styled from 'styled-components'
+import {Button} from '../atoms'
 
 const StyledNav = styled.nav`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: #fff;
     padding: 1rem 1.5rem;
 `
 
 const NavMenu = styled.ul`
     display: flex;
     justify-content: space-around;
-    justify-items: center;
+    align-items: center;
     list-style: none;
 
     @media (max-width: 768px) {
@@ -44,7 +46,7 @@ const NavItem = styled.li`
 const NavLink = styled.a`
     font-size: 1.25rem;
     font-weight: 400;
-    color: #475569;
+    color: #2c2c2c;
     text-decoration: none;
 `
 
@@ -78,6 +80,11 @@ const Hamburger = styled.div`
     }
 `
 
+const Logo = styled.img`
+    height: 48px;
+    width: 40px;
+`
+
 const HamburgerButton = () => {
     return (
         <Hamburger>
@@ -91,7 +98,7 @@ const HamburgerButton = () => {
 const Navbar = () => {
     return (
         <StyledNav>
-                <a href="/">Logo</a>
+                <a href="/"><Logo src={process.env.PUBLIC_URL + "/tomato.svg"} alt="A cartoon tomato" /></a>
                 <NavMenu>
                     <NavItem>
                         <NavLink href="">Home</NavLink>
@@ -100,7 +107,7 @@ const Navbar = () => {
                         <NavLink href="">Account</NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink href="">Log Out</NavLink>
+                        <Button inverted>Log Out</Button>
                     </NavItem>
                 </NavMenu>
                 <HamburgerButton />

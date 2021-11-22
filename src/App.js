@@ -2,10 +2,14 @@ import "./App.css";
 import styled from "styled-components";
 import { Navbar, Timer } from "./components/organisms";
 
-const Container = styled.div`
-  width: 100vw;
+const AppContainer = styled.div`
   height: 100vh;
   background-color: #c0392b;
+`;
+
+const Container = styled.div`
+  width: 100%;
+  height: 80%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -14,14 +18,14 @@ const Container = styled.div`
 
 const App = () => {
   return (
-    <div>
+    <AppContainer>
       <header className="App-header">
         <Navbar />
       </header>
       <Container>
         <Timer />
       </Container>
-    </div>
+    </AppContainer>
   );
 };
 
