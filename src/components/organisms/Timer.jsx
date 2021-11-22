@@ -15,6 +15,14 @@ const Container = styled.div`
     align-items: center;
 `
 
+const ButtonContainer = styled.div`
+    display: flex;
+    
+    @media (max-width: 768px) {
+        flex-direction: column;
+    }
+`
+
 
 const Timer = () => {
     const [seconds, setSeconds] = useState(60 * 25);
@@ -45,14 +53,14 @@ const Timer = () => {
     return (
         <Container>
             <StyledTimer>{minutes}:{(seconds%60) <= 0 ? `0${seconds%60}` : (seconds%60)}</StyledTimer>
-            <div>
+            <ButtonContainer>
                 <Button primary onClick={toggle}>
                     {isActive ? "Pause" : "Start"}
                 </Button>
                 <Button onClick={reset}>
                     Reset
                 </Button>
-            </div>
+            </ButtonContainer>
         </Container>
     )
 }

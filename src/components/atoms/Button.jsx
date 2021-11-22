@@ -11,7 +11,7 @@ const StyledButton = styled.button`
   outline: none;
   border-radius: 0.5rem;
   cursor: pointer;
-  margin: 0 1rem;
+  margin: 0.25rem 1rem;
 
   ${props => props.primary && css`
     background: #fff;
