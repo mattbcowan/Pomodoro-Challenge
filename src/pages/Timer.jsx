@@ -27,9 +27,10 @@ const ButtonContainer = styled.div`
 `;
 
 const Timer = () => {
-  const [seconds, setSeconds] = useState(60 * 25);
+  const [seconds, setSeconds] = useState(10);
   const [isActive, setIsActive] = useState(false);
   const [user, error] = useAuthState(auth);
+
   const navigate = useNavigate();
 
   let minutes = Math.floor(seconds / 60);
@@ -39,13 +40,15 @@ const Timer = () => {
   }
 
   function reset() {
-    setSeconds(60 * 25);
+    setSeconds(10);
     setIsActive(false);
   }
 
   useEffect(() => {
     if (!user) return navigate("/login");
+
     let interval = null;
+
     if (isActive) {
       interval = setInterval(() => {
         setSeconds((seconds) => seconds - 1);
@@ -59,7 +62,13 @@ const Timer = () => {
   return (
     <Container>
       <StyledTimer>
-        {minutes}:{seconds % 60 <= 0 ? `0${seconds % 60}` : seconds % 60}
+        {seconds < 0 ? (
+          <p>Time to Rest</p>
+        ) : (
+          <>
+            {minutes}:{seconds % 60 <= 9 ? `0${seconds % 60}` : seconds % 60}
+          </>
+        )}
       </StyledTimer>
       <ButtonContainer>
         <Button primary onClick={toggle}>
