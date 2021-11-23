@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, logout, db } from "../firebase";
 import { onValue, ref } from "firebase/database";
 
 const Dashboard = () => {
-  const [user, loading, error] = useAuthState(auth);
+  const [user, error] = useAuthState(auth);
   const [myUser, setMyUser] = useState({});
   const navigate = useNavigate();
 
@@ -18,10 +18,9 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    if (loading) return;
-    if (!user) return navigate("/");
+    if (!user) return navigate("/login");
     getUserData(db, user);
-  }, [user, loading]);
+  }, [user]);
 
   return (
     <div>

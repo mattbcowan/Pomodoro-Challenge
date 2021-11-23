@@ -1,7 +1,7 @@
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
-import { Login, Registration, Dashboard, Reset } from "./pages";
+import { Login, Registration, Dashboard, Reset, Timer } from "./pages";
 import { Navbar } from "./components/organisms";
 
 const AppContainer = styled.div`
@@ -21,17 +21,18 @@ const Container = styled.div`
 const App = () => {
   return (
     <AppContainer>
-      <Navbar />
-      <Container>
-        <Router>
+      <Router>
+        <Navbar />
+        <Container>
           <Routes>
-            <Route exact path="/" element={<Login />} />
-            <Route exact path="/register" element={<Registration />} />
-            <Route exact path="/reset" element={<Reset />} />
-            <Route exact path="/dashboard" element={<Dashboard />} />
+            <Route exact path="/" element={<Timer />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Registration />} />
+            <Route path="/reset" element={<Reset />} />
+            <Route path="/dashboard" element={<Dashboard />} />
           </Routes>
-        </Router>
-      </Container>
+        </Container>
+      </Router>
     </AppContainer>
   );
 };

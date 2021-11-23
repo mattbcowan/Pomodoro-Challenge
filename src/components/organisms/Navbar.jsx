@@ -1,118 +1,141 @@
-import React from 'react'
-import styled from 'styled-components'
-import {Button} from '../atoms'
+import React from "react";
+import styled from "styled-components";
+import { Button, Hamburger } from "../atoms";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { Link } from "react-router-dom";
+import { auth, logout } from "../../firebase";
 
 const StyledNav = styled.nav`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #fff;
-    padding: 1rem 1.5rem;
-`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  padding: 1rem 1.5rem;
+`;
 
 const NavMenu = styled.ul`
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    list-style: none;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  list-style: none;
 
-    @media (max-width: 768px) {
-        position: fixed;
-        left: -100%;
-        top: 5rem;
-        flex-direction: column;
-        background-color: #fff;
-        width: 100%;
-        border-radius: 10px;
-        text-align: center;
-        transition: 0.3s;
-        box-shadow: 0 10px 27px rgba(0,0,0, 0.05);
+  @media (max-width: 768px) {
+    position: fixed;
+    left: -100%;
+    top: 5rem;
+    flex-direction: column;
+    background-color: #fff;
+    width: 100%;
+    border-radius: 10px;
+    text-align: center;
+    transition: 0.3s;
+    box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
 
-        &.active {
-            left: 0;
-        }
+    &.active {
+      left: 0;
     }
-`
+  }
+`;
 
 const NavItem = styled.li`
-    margin-left: 5rem;
-    list-style: none;
+  margin-left: 5rem;
+  list-style: none;
 
-    @media (max-width: 768px) {
-        margin: 2.5rem 0;
-    }
-`
+  @media (max-width: 768px) {
+    margin: 2.5rem 0;
+  }
+`;
 
-const NavLink = styled.a`
-    font-size: 1.25rem;
-    font-weight: 400;
-    color: #2c2c2c;
-    text-decoration: none;
-`
+const NavLink = styled(Link)`
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: #2c2c2c;
+  text-decoration: none;
+`;
 
-const HamburgerBar = styled.span`
-    display: block;
-    width: 25px;
-    height: 3px;
-    margin: 5px auto;
-    transition: all 0.3s ease-in-out;
-    background-color: #101010;
-`
+const LogInButton = styled(Link)`
+  width: 11rem;
+  padding: 1rem 1.5rem;
+  font-size: 1.25rem;
+  background: #27ae60;
+  border: 2px solid #27ae60;
+  color: #fff;
+  outline: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin: 0.25rem 1rem;
+  text-decoration: none;
+`;
 
-const Hamburger = styled.div`
-    display: none;
-
-    @media (max-width: 768px) {
-        display: block;
-        cursor: pointer;
-
-        &.active {
-            ${HamburgerBar}:nth-child(2) {
-                opacity: 0;
-            }
-            ${HamburgerBar}:nth-child(1) {
-                transform: translateY(8px) rotate(45deg);
-            }
-            ${HamburgerBar}:nth-child(3) {
-                transform: translateY(-8px) rotate(-45deg);
-            }
-        }
-    }
-`
+const LogOutButton = styled.button`
+  width: 11rem;
+  padding: 1rem 1.5rem;
+  font-size: 1.25rem;
+  background: #c0392b;
+  border: 2px solid #c0392b;
+  color: #fff;
+  outline: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin: 0.25rem 1rem;
+  text-decoration: none;
+`;
 
 const Logo = styled.img`
-    height: 48px;
-    width: 40px;
-`
+  height: 48px;
+  width: 40px;
+`;
 
-const HamburgerButton = () => {
-    return (
-        <Hamburger>
-            <HamburgerBar></HamburgerBar>
-            <HamburgerBar></HamburgerBar>
-            <HamburgerBar></HamburgerBar>
-        </Hamburger>
-    )
-}
+const NavLoggedIn = () => {
+  return (
+    <StyledNav>
+      <Link to="/">
+        <Logo
+          src={process.env.PUBLIC_URL + "/tomato.svg"}
+          alt="A cartoon tomato"
+        />
+      </Link>
+      <NavMenu>
+        <NavItem>
+          <NavLink to="/">Home</NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink to="/dashboard">Account</NavLink>
+        </NavItem>
+        <NavItem>
+          <LogOutButton onClick={logout}>Log Out</LogOutButton>
+        </NavItem>
+      </NavMenu>
+      <Hamburger />
+    </StyledNav>
+  );
+};
+
+const NavLoggedOut = () => {
+  return (
+    <StyledNav>
+      <Link to="/">
+        <Logo
+          src={process.env.PUBLIC_URL + "/tomato.svg"}
+          alt="A cartoon tomato"
+        />
+      </Link>
+      <NavMenu>
+        <NavItem>
+          <LogInButton to="/login">Log In</LogInButton>
+        </NavItem>
+      </NavMenu>
+      <Hamburger />
+    </StyledNav>
+  );
+};
 
 const Navbar = () => {
-    return (
-        <StyledNav>
-                <a href="/"><Logo src={process.env.PUBLIC_URL + "/tomato.svg"} alt="A cartoon tomato" /></a>
-                <NavMenu>
-                    <NavItem>
-                        <NavLink href="">Home</NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink href="">Account</NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <Button inverted>Log Out</Button>
-                    </NavItem>
-                </NavMenu>
-                <HamburgerButton />
-        </StyledNav>
-    )
-}
+  const [user] = useAuthState(auth);
+  if (user) {
+    return <NavLoggedIn />;
+  }
+  return <NavLoggedOut />;
+};
 
-export default Navbar
+export default Navbar;

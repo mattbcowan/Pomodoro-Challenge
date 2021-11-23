@@ -96,7 +96,7 @@ const Registration = () => {
           Register with Google
         </GoogleButton>
         <div>
-          Already have an account? <Link to="/">Login Now.</Link>
+          Already have an account? <Link to="/login">Login Now.</Link>
         </div>
       </InputContainer>
     </RegisterContainer>
