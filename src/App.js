@@ -1,7 +1,7 @@
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
-import { Login, Registration } from "./pages";
+import { Login, Registration, Dashboard, Reset } from "./pages";
 import { Navbar } from "./components/organisms";
 
 const AppContainer = styled.div`
@@ -27,6 +27,8 @@ const App = () => {
           <Routes>
             <Route exact path="/" element={<Login />} />
             <Route exact path="/register" element={<Registration />} />
+            <Route exact path="/reset" element={<Reset />} />
+            <Route exact path="/dashboard" element={<Dashboard />} />
           </Routes>
         </Router>
       </Container>
