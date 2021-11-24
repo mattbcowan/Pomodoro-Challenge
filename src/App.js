@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 import { Login, Registration, Dashboard, Reset, Timer } from "./pages";
 import { Navbar } from "./components/organisms";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "./firebase";
 
 const AppContainer = styled.div`
   height: 100vh;
@@ -19,17 +21,18 @@ const Container = styled.div`
 `;
 
 const App = () => {
+  const [user] = useAuthState(auth);
   return (
     <AppContainer>
       <Router>
         <Navbar />
         <Container>
           <Routes>
-            <Route exact path="/" element={<Timer />} />
+            <Route exact path="/" element={<Timer user={user} />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Registration />} />
             <Route path="/reset" element={<Reset />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard" element={<Dashboard user={user} />} />
           </Routes>
         </Container>
       </Router>

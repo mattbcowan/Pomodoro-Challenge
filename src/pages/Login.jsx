@@ -38,7 +38,7 @@ const InputContainer = styled.div`
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user, loading, error] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -49,7 +49,7 @@ const Login = () => {
     if (user) {
       navigate("/dashboard");
     }
-  }, [user, loading]);
+  }, [user, loading]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <LoginContainer>

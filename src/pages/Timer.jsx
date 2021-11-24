@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../firebase";
+import { ref, set } from "firebase/database";
+import { useObjectVal } from "react-firebase-hooks/database";
+import { db } from "../firebase";
 import styled from "styled-components";
-import { Button } from "../components/atoms";
-
-const StyledTimer = styled.div`
-  font-size: 8rem;
-  color: white;
-  padding-bottom: 2rem;
-`;
+import { Button, Time } from "../components/atoms";
 
 const Container = styled.div`
   display: flex;
@@ -26,14 +21,12 @@ const ButtonContainer = styled.div`
   }
 `;
 
-const Timer = () => {
-  const [seconds, setSeconds] = useState(10);
+const Timer = ({ user }) => {
   const [isActive, setIsActive] = useState(false);
-  const [user, error] = useAuthState(auth);
-
+  const [seconds, setSeconds] = useState(10);
+  const [value] = useObjectVal(ref(db, `/users/`));
+  const [userObject, setUserObject] = useState({});
   const navigate = useNavigate();
-
-  let minutes = Math.floor(seconds / 60);
 
   function toggle() {
     setIsActive(!isActive);
@@ -44,32 +37,51 @@ const Timer = () => {
     setIsActive(false);
   }
 
+  function updateDB() {
+    set(ref(db, `/users/${user.uid}`), userObject)
+      .then(() => {
+        console.log("Data saved!");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   useEffect(() => {
     if (!user) return navigate("/login");
 
+    if (value !== undefined) {
+      for (let [key, values] of Object.entries(value)) {
+        if (user.uid === key) {
+          setUserObject(values);
+        }
+      }
+    }
+
     let interval = null;
 
-    if (isActive) {
-      interval = setInterval(() => {
-        setSeconds((seconds) => seconds - 1);
-      }, 1000);
-    } else if (!isActive && seconds !== 0) {
-      clearInterval(interval);
+    if (value !== undefined) {
+      if (isActive && seconds > -1) {
+        interval = setInterval(() => {
+          setSeconds((seconds) => seconds - 1);
+        }, 1000);
+      } else if (!isActive && seconds !== 0) {
+        clearInterval(interval);
+      } else if (seconds < 0) {
+        clearInterval(interval);
+        setIsActive(false);
+        userObject.pomScore++;
+        updateDB();
+      }
+      return () => {
+        clearInterval(interval);
+      };
     }
-    return () => clearInterval(interval);
-  }, [isActive, seconds, user]);
+  }, [user, isActive, seconds]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Container>
-      <StyledTimer>
-        {seconds < 0 ? (
-          <p>Time to Rest</p>
-        ) : (
-          <>
-            {minutes}:{seconds % 60 <= 9 ? `0${seconds % 60}` : seconds % 60}
-          </>
-        )}
-      </StyledTimer>
+      <Time seconds={seconds} isActive={isActive} />
       <ButtonContainer>
         <Button primary onClick={toggle}>
           {isActive ? "Pause" : "Start"}

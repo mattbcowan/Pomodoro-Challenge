@@ -43,7 +43,7 @@ const Registration = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [user, loading, error] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
   const navigate = useNavigate();
 
   const register = () => {
@@ -54,7 +54,7 @@ const Registration = () => {
   useEffect(() => {
     if (loading) return;
     if (user) navigate("/dashboard");
-  }, [user, loading]);
+  }, [user, loading]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <RegisterContainer>

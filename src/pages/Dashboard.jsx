@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, logout, db } from "../firebase";
-import { onValue, ref } from "firebase/database";
-import { Button } from "../components/atoms";
+import { useObjectVal } from "react-firebase-hooks/database";
+import { db } from "../firebase";
+import { ref } from "firebase/database";
 
 const Greeting = styled.h1`
   font-size: 6em;
@@ -17,28 +16,35 @@ const Score = styled.div`
   font-size: 2em;
 `;
 
-const Dashboard = () => {
-  const [user, error] = useAuthState(auth);
-  const [myUser, setMyUser] = useState({});
+const Dashboard = ({ user }) => {
+  const [value, loading] = useObjectVal(ref(db, `/users/`));
+  const [userObject, setUserObject] = useState({});
   const navigate = useNavigate();
 
-  const getUserData = async (db, user) => {
-    const userId = user.uid;
-    onValue(ref(db, `/users/${userId}`), (snapshot) => {
-      const data = snapshot.val();
-      setMyUser(data);
-    });
-  };
-
   useEffect(() => {
-    if (!user) return navigate("/login");
-    getUserData(db, user);
-  }, [user]);
+    if (!user) {
+      return navigate("/login");
+    }
+
+    if (value !== undefined) {
+      for (let [key, values] of Object.entries(value)) {
+        if (user.uid === key) {
+          setUserObject(values);
+        }
+      }
+    }
+  }, [value, userObject]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div>
-      <Greeting>Hey {myUser.username}!</Greeting>
-      <Score>Your current score is 0</Score>
+      {loading ? (
+        <Greeting>Loading...</Greeting>
+      ) : (
+        <>
+          <Greeting>Hey {userObject.username}!</Greeting>
+          <Score>Your current score is {userObject.pomScore}</Score>
+        </>
+      )}
     </div>
   );
 };

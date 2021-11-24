@@ -3,14 +3,15 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { auth, sendPasswordResetEmail } from "../firebase";
+
 function Reset() {
   const [email, setEmail] = useState("");
-  const [user, loading, error] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
   const navigate = useNavigate();
   useEffect(() => {
     if (loading) return;
     if (user) navigate("/dashboard");
-  }, [user, loading]);
+  }, [user, loading]); // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <div className="reset">
       <div className="reset__container">

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Button, Hamburger } from "../atoms";
+import { Hamburger } from "../atoms";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
 import { auth, logout } from "../../firebase";
