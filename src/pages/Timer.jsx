@@ -22,8 +22,9 @@ const ButtonContainer = styled.div`
 `;
 
 const Timer = ({ user }) => {
+  const defaultTime = 60 * 25;
   const [isActive, setIsActive] = useState(false);
-  const [seconds, setSeconds] = useState(10);
+  const [seconds, setSeconds] = useState(defaultTime);
   const [value] = useObjectVal(ref(db, `/users/`));
   const [userObject, setUserObject] = useState({});
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ const Timer = ({ user }) => {
   }
 
   function reset() {
-    setSeconds(10);
+    setSeconds(defaultTime);
     setIsActive(false);
   }
 

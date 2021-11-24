@@ -97,7 +97,7 @@ const NavLoggedIn = () => {
       </Link>
       <NavMenu>
         <NavItem>
-          <NavLink to="/">Home</NavLink>
+          <NavLink to="/">Timer</NavLink>
         </NavItem>
         <NavItem>
           <NavLink to="/dashboard">Account</NavLink>
