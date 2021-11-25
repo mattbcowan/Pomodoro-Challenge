@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Hamburger } from "../atoms";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { auth, logout } from "../../firebase";
 
 const StyledNav = styled.nav`
@@ -87,6 +88,13 @@ const Logo = styled.img`
 `;
 
 const NavLoggedIn = () => {
+  const navigate = useNavigate();
+
+  const onLogoutClicked = () => {
+    logout();
+    return navigate("/login");
+  };
+
   return (
     <StyledNav>
       <Link to="/">
@@ -103,7 +111,7 @@ const NavLoggedIn = () => {
           <NavLink to="/dashboard">Account</NavLink>
         </NavItem>
         <NavItem>
-          <LogOutButton onClick={logout}>Log Out</LogOutButton>
+          <LogOutButton onClick={onLogoutClicked}>Log Out</LogOutButton>
         </NavItem>
       </NavMenu>
       <Hamburger />
