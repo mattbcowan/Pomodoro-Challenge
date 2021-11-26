@@ -8,6 +8,7 @@ const HamburgerContainer = styled.div`
   right: 24px;
   z-index: 20;
   display: none;
+  cursor: pointer;
 
   @media (max-width: 768px) {
     display: flex;
