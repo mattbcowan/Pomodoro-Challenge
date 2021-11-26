@@ -28,10 +28,12 @@ const NavMenu = styled.ul`
 const NavItem = styled.li`
   margin-left: 5rem;
   list-style: none;
+  align-self: center;
 
   @media (max-width: 768px) {
     margin: 2.5rem;
     display: flex;
+    width: 80%;
   }
 `;
 
