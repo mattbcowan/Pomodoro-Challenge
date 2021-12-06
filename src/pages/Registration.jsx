@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -9,6 +9,18 @@ import {
 } from "../firebase";
 import { InputWithLabel } from "../components/molecules";
 import { Button } from "../components/atoms";
+
+const fadeIn = keyframes`
+  from {
+    transform: scale(.25);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+`;
 
 const GoogleButton = styled.button`
   background-color: transparent;
@@ -28,9 +40,10 @@ const RegisterContainer = styled.div`
   flex-direction: column;
   max-width: 400px;
   background-color: #fff;
-  width: 100%;
+  width: 90%;
   padding: 2rem;
   border-radius: 0.5em;
+  animation: ${fadeIn} 250ms linear;
 `;
 
 const InputContainer = styled.div`
@@ -39,16 +52,25 @@ const InputContainer = styled.div`
   align-items: center;
 `;
 
+const ErrorBox = styled.div`
+  background-color: #c0392b;
+  color: #fff;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+`;
+
 const Registration = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [user, loading] = useAuthState(auth);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const register = () => {
     if (!name) alert("Please enter name");
-    registerWithEmailAndPassword(name, email, password);
+    registerWithEmailAndPassword(name, email, password, setError);
   };
 
   useEffect(() => {
@@ -58,6 +80,7 @@ const Registration = () => {
 
   return (
     <RegisterContainer>
+      {error && <ErrorBox>{error}</ErrorBox>}
       <InputContainer>
         <InputWithLabel
           htmlFor="name"

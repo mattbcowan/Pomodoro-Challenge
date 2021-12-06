@@ -3,9 +3,7 @@ import styled from "styled-components";
 const HamburgerContainer = styled.div`
   width: 2rem;
   height: 2rem;
-  position: fixed;
-  top: 24px;
-  right: 24px;
+  position: relative;
   z-index: 20;
   display: none;
   cursor: pointer;

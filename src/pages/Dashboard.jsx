@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import { useObjectVal } from "react-firebase-hooks/database";
 import { db } from "../firebase";
 import { ref } from "firebase/database";
+import Loading from "../components/atoms/Loading";
 
 const Greeting = styled.h1`
   font-size: 6em;
@@ -38,7 +39,9 @@ const Dashboard = ({ user }) => {
   return (
     <div>
       {loading ? (
-        <Greeting>Loading...</Greeting>
+        <Greeting>
+          <Loading />
+        </Greeting>
       ) : (
         <>
           <Greeting>Hey {userObject.username}!</Greeting>
