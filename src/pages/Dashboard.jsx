@@ -18,7 +18,7 @@ const Score = styled.div`
 `;
 
 const Dashboard = ({ user }) => {
-  const [value, loading] = useObjectVal(ref(db, `/users/`));
+  const [value, loading] = useObjectVal(ref(db, `/users`));
   const [userObject, setUserObject] = useState({});
   const navigate = useNavigate();
 
